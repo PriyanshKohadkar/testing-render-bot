@@ -1,20 +1,24 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
-const http = require('http');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-client.once('ready', c => {
-  console.log(`✅ Logged in as ${c.user.tag}`);
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
 });
 
-client.login(process.env.DISCORD_TOKEN).then(() => {
-  console.log('Login resolved!');
-}).catch(err => {
-  console.error('Login FAILED:', err.message);
+client.once('ready', () => {
+  console.log(`Logged in as ${client.user.tag}`);
 });
 
-const PORT = process.env.PORT || 3000;
-http.createServer((req, res) => res.end('alive')).listen(PORT, () => {
-  console.log(`HTTP on port ${PORT}`);
+client.on('messageCreate', (message) => {
+  if (message.author.bot) return;
+
+  if (message.content === '!ping') {
+    message.reply('Pong!');
+  }
 });
+
+client.login(process.env.TOKEN);
