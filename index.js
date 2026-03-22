@@ -1,3 +1,5 @@
+const WebSocket = require('ws');
+global.WebSocket = WebSocket;
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const keepAlive = require('./keep_alive');
