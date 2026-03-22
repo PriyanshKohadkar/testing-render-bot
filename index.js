@@ -1,3 +1,4 @@
+process.env.UNDICI_WS = '1';
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const http = require('http');
