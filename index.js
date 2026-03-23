@@ -21,8 +21,10 @@ client.once("ready", () => {
 });
 console.log("Before login");
 
-client.login(process.env.TOKEN).catch(err => {
-  console.error("LOGIN ERROR:", err);
-  
-console.log("After login");
-});
+(async () => {
+  console.log("Before login");
+  await client.login(process.env.TOKEN);
+  console.log("After login");
+})();
+
+
