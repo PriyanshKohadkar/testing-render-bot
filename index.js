@@ -1,3 +1,5 @@
+require("dns").setDefaultResultOrder("ipv4first");
+
 require("dotenv").config();
 const express = require("express");
 const { Client, GatewayIntentBits } = require("discord.js");
@@ -14,17 +16,16 @@ app.listen(PORT, () => {
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
 });
-console.log("Before login");
 
-client.once("ready", () => {
+client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
-console.log("Before login");
+
+client.on("debug", console.log);
+client.on("error", console.error);
 
 (async () => {
   console.log("Before login");
   await client.login(process.env.TOKEN);
   console.log("After login");
 })();
-
-
