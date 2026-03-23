@@ -9,9 +9,9 @@ app.listen(3000, () => console.log("Web server active"));
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
 });
-
+console.log("TOKEN:", process.env.TOKEN);
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).catch(console.error);
