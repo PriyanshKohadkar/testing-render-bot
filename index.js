@@ -1,26 +1,17 @@
-const WebSocket = require('ws');
-global.WebSocket = WebSocket;
-require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
-const keepAlive = require('./keep_alive');
+require("dotenv").config();
+const express = require("express");
+const { Client, GatewayIntentBits } = require("discord.js");
 
-console.log('Token exists:', !!process.env.DISCORD_TOKEN);
+const app = express();
+app.get("/", (req, res) => res.send("Bot is running"));
+app.listen(3000, () => console.log("Web server active"));
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-client.once('ready', c => {
-  console.log(`✅ Logged in as ${c.user.tag}`);
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds]
 });
 
-// Start HTTP server FIRST then login
-keepAlive().then(() => {
-  console.log('Starting login...');
-  client.login(process.env.DISCORD_TOKEN).then(() => {
-    console.log('Login resolved!');
-  }).catch(err => {
-    console.error('Login FAILED:', err.message);
-  });
+client.once("ready", () => {
+  console.log(`Logged in as ${client.user.tag}`);
 });
 
-setTimeout(() => console.log('30s status:', client.isReady() ? 'READY' : 'NOT READY'), 30000);
-setTimeout(() => console.log('60s status:', client.isReady() ? 'READY' : 'NOT READY'), 60000);
+client.login(process.env.TOKEN);
