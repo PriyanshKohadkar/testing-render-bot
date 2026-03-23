@@ -14,11 +14,15 @@ app.listen(PORT, () => {
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
 });
+console.log("Before login");
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
+console.log("Before login");
 
 client.login(process.env.TOKEN).catch(err => {
   console.error("LOGIN ERROR:", err);
+  
+console.log("After login");
 });
