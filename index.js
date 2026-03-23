@@ -3,15 +3,22 @@ const express = require("express");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const app = express();
+
 app.get("/", (req, res) => res.send("Bot is running"));
-app.listen(3000, () => console.log("Web server active"));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Web server active on port " + PORT);
+});
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
 });
-console.log("TOKEN:", process.env.TOKEN);
+
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.login(process.env.TOKEN).catch(console.error);
+client.login(process.env.TOKEN).catch(err => {
+  console.error("LOGIN ERROR:", err);
+});
